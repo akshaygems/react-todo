@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 class Header extends Component {
   render() {
     return(
-      <div>
-        ToDo lists
-      </div>
+      <p className="h2 mb-0">
+        Todo lists
+      </p>
     );
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Header from './Header';
 import TodoList from './TodoList';
 import Footer from './Footer';
+import { Container, Card, CardHeader, CardBody, Row, Col } from 'reactstrap';
 
 class MainComponent extends Component {
   constructor() {
@@ -13,10 +14,23 @@ class MainComponent extends Component {
       lastTodoId: 0,
       todo_list: [],
       currentListStatus: "all",
-      allChecked: false
+      allChecked: false,
+      hoverId: 0
     }
     this.removeTodoItemFromList = this.removeTodoItemFromList.bind(this);
     this.updateTodoStatus = this.updateTodoStatus.bind(this);
+  }
+
+  setHoverListId = (listHoverId) => {
+    this.setState({
+      hoverId: listHoverId
+    })
+  }
+
+  resetHoverListId = () => {
+    this.setState({
+      hoverId: 0
+    })
   }
 
   addTodoNameInList = (event) => {
@@ -28,7 +42,7 @@ class MainComponent extends Component {
       alert("Todo name can't be blank")
       return false;
     }
-    const todoId = this.state.lastTodoId + 1
+    const todoId = this.state.lastTodoId + 1;
     const hash = {
       id: todoId,
       name: targetValue,
@@ -36,7 +50,10 @@ class MainComponent extends Component {
     }
     this.setState({
       todo_list: this.state.todo_list.concat(hash),
-      lastTodoId: todoId
+      lastTodoId: todoId,
+      input: {
+        todo_name: "",
+      },
     })
   }
 
@@ -127,7 +144,6 @@ class MainComponent extends Component {
     const hasActiveTodo = todoList.filter((item) => {
       return (item.status === "active");
     });
-    debugger
     return !(hasActiveTodo.length > 0)
   }
 
@@ -135,37 +151,65 @@ class MainComponent extends Component {
     const input = this.state.input;
     return(
       <div>
-        <Header />
-        <div>
-          <input
-            type="checkbox"
-            checked={ this.state.allChecked ? this.getAllCheckCheckBoxValue() : false }
-            onChange={(event) => this.updateAllTodoStatus(event)} />
-          <input
-            text="text"
-            value={ input.todo_name }
-            onKeyUp={ this.addTodoNameInList }
-            onChange={ this.updateTodoNameOnChange }
-          />
-        </div>
+        <Container className="p-5">
+          <Row>
+            <Col>
+              <Card>
+                <CardHeader className="bg-info text-white">
+                  <Header />
+                </CardHeader>
 
-        {
-          this.state.todo_list.length > 0 ?
-            <TodoList
-              todoList={ this.getTodoList() }
-              removeTodoItemFromList={ this.removeTodoItemFromList }
-              updateTodoStatus={ this.updateTodoStatus }
-              allChecked={this.state.allChecked}
-            />
-            :
-            ""
-        }
+                <CardBody>
+                  <div className="input-group input-group-lg mb-3">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="check-all-todo-items-check-box"
+                            checked={ this.state.allChecked ? this.getAllCheckCheckBoxValue() : false }
+                            onChange={(event) => this.updateAllTodoStatus(event)} />
+                          <label
+                            htmlFor="check-all-todo-items-check-box"
+                            className="custom-control-label"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <input
+                      text="text"
+                      value={ input.todo_name }
+                      className="form-control"
+                      placeholder="What needs to done?"
+                      onKeyUp={ this.addTodoNameInList }
+                      onChange={ this.updateTodoNameOnChange }
+                    />
+                  </div>
 
-        <Footer
-          todoList={ this.state.todo_list }
-          updateShowTodoListStatus={ this.updateShowTodoListStatus }
-          clearCompletedAllTodoFromList={ this.clearCompletedAllTodoFromList }
-        />
+                  {
+                    this.state.todo_list.length > 0 &&
+                    <TodoList
+                      todoList={ this.getTodoList() }
+                      removeTodoItemFromList={ this.removeTodoItemFromList }
+                      updateTodoStatus={ this.updateTodoStatus }
+                      allChecked={this.state.allChecked}
+                      listHoverId={this.state.hoverId}
+                      setHoverListId={this.setHoverListId}
+                      resetHoverListId={this.resetHoverListId}
+                    />
+                  }
+
+                  <Footer
+                    todoList={ this.state.todo_list }
+                    updateShowTodoListStatus={ this.updateShowTodoListStatus }
+                    clearCompletedAllTodoFromList={ this.clearCompletedAllTodoFromList }
+                  />
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
       </div>
     )
   }

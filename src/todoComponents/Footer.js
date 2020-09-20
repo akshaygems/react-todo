@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { Container, Row, Col, Button } from "reactstrap";
 
 class Footer extends Component {
   getLeftItemsCount = (props) => {
@@ -12,45 +13,48 @@ class Footer extends Component {
     return count;
   }
 
+  hasAnyCompletedItem = (itemList) => {
+    const completedItemList = itemList.filter((item) => {
+      return (item.status === "completed");
+    });
+    return completedItemList.length > 0;
+  }
+
   render() {
-    const footerContainer = {
-      margin: "30px",
-      display: "flex",
-      justifyContent: "center"
-    }
-    const footerButton = {
-      marginLeft: "30px",
-    }
     const {updateShowTodoListStatus} = this.props;
     let leftItemsCount = this.getLeftItemsCount(this.props);
+
     return(
-      <div style={footerContainer}>
-        {leftItemsCount} items left
-        <button
-          onClick={() => updateShowTodoListStatus("all")}
-          style={footerButton}
-        >
-          All
-        </button>
-        <button
-          onClick={ () => updateShowTodoListStatus("active") }
-          style={footerButton}
-        >
-          Active
-        </button>
-        <button
-          onClick={ () => updateShowTodoListStatus("completed")}
-          style={footerButton}
-        >
-          Completed
-        </button>
-        <button
-          onClick={ () => this.props.clearCompletedAllTodoFromList()}
-          style={footerButton}
-        >
-          Clear completed
-        </button>
-      </div>
+      <Container className="mt-3">
+        <Row>
+          <Col md="2">
+            {leftItemsCount} items left
+          </Col>
+          <Col md="2">
+            <Button color="primary" size="sm" onClick={ () => updateShowTodoListStatus("all") } >
+              All
+            </Button>
+          </Col>
+          <Col md="2">
+            <Button color="warning" size="sm" onClick={ () => updateShowTodoListStatus("active") } >
+              Active
+            </Button>
+          </Col>
+          <Col md="2">
+            <Button color="success" size="sm" onClick={ () => updateShowTodoListStatus("completed")} >
+              Completed
+            </Button>
+          </Col>
+          {
+            this.hasAnyCompletedItem(this.props.todoList) &&
+            <Col md="2">
+              <Button color="danger" size="sm" onClick={ () => this.props.clearCompletedAllTodoFromList()} >
+                Clear completed
+              </Button>
+            </Col>
+          }
+        </Row>
+      </Container>
     )
   }
 }
