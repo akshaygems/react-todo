@@ -199,7 +199,7 @@ class MainComponent extends Component {
                       resetHoverListId={this.resetHoverListId}
                     />
                   }
-
+                  
                   <Footer
                     todoList={ this.state.todo_list }
                     updateShowTodoListStatus={ this.updateShowTodoListStatus }

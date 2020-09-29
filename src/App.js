@@ -17,7 +17,10 @@ import './App.css';
 // import {UserProvider} from './components/userContext';
 // import BasicRoute from './components/routes/BasicRoute'
 
-import MainComponent from './todoComponents/MainComponent';
+// import MainComponent from './todoComponents/MainComponent';
+
+import MainComponentWithHook from './todoWithHooks/MainComponent';
+// import MainComponentWithOutHook from './todoComponents/MainComponent';
 
 function App() {
   return (
@@ -36,7 +39,12 @@ function App() {
 
       {/* <BasicRoute /> */}
 
-      <MainComponent />
+      {/* <MainComponent /> */}
+
+
+      <MainComponentWithHook />
+      {/* <MainComponentWithOutHook /> */}
+
     </div>
   );
 }
