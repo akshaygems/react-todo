@@ -19,8 +19,10 @@ import './App.css';
 
 // import MainComponent from './todoComponents/MainComponent';
 
-import MainComponentWithHook from './todoWithHooks/MainComponent';
+// import MainComponentWithHook from './todoWithHooks/MainComponent';
 // import MainComponentWithOutHook from './todoComponents/MainComponent';
+
+import MainComponent from './todoWithReducers/MainComponent';
 
 function App() {
   return (
@@ -42,9 +44,10 @@ function App() {
       {/* <MainComponent /> */}
 
 
-      <MainComponentWithHook />
+      {/* <MainComponentWithHook /> */}
       {/* <MainComponentWithOutHook /> */}
 
+      <MainComponent />
     </div>
   );
 }
